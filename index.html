@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My To-Do's</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="js/app.js" type="module" defer></script>
+</head>
+
+<body>
+  <h1 class="title">Stuff I need to do</h1>
+  <!-- lists section -->
+  <aside class="all-tasks">
+    <h2 class="task-lists-title">My Lists</h2>
+    <ul class="task-lists" id="task-lists">
+      <!-- <li class="task-list active-list">YouTube</li> -->
+      <!-- <li class="task-list">Work</li>
+      <li class="task-list">Grocery</li> -->
+    </ul>
+    <form action="" class="new-list-form">
+      <input type="text" class="new add-list" placeholder="new list name" aria-label="new list name" id="new-list-name" />
+      <button class="btn add-list" aria-label="create new list" id="new-list">+</button>
+    </form>
+  </aside>
+
+  <!-- todo-list section -->
+  <section class="todo-list">
+    <div class="todo-list-header">
+      <h2 class="list-title">YouTube</h2>
+      <p><span class="task-number">3</span> tasks remaining</p>
+    </div>
+    <div class="todo-list-body">
+      <div class="tasks" id="tasks">
+        <!-- <div class="task">
+          <input type="checkbox" name="" id="task-1">
+          <label for="task-1"><span class="custom-checkbox"></span>record todo list video</label>
+        </div>
+        <div class="task">
+          <input type="checkbox" name="" id="task-2">
+          <label for="task-2"><span class="custom-checkbox"></span>edit todo list video</label>
+        </div>
+        <div class="task">
+          <input type="checkbox" name="" id="task-3">
+          <label for="task-3"><span class="custom-checkbox"></span>publish todo list video</label>
+        </div> -->
+      </div>
+      <form action="" class="new-task-form">
+        <input type="text" class="new add-task" placeholder="new task name" aria-label="new task name" />
+        <button class="btn add-task" aria-label="create new task">+</button>
+      </form>
+    </div>
+    </div>
+    <div class="todo-list-footer">
+      <button class="btn delete">Clear completed tasks</button>
+      <button class="btn delete">Delete list</button>
+    </div>
+  </section>
+</body>
+
+</html>

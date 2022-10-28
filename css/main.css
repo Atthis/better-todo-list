@@ -1,0 +1,226 @@
+/* Variables */
+/* Colors */
+/* Values */
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: hsl(216deg, 57%, 50%);
+  font-family: "Work sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #f4f4f4;
+  display: grid;
+  grid: "header header header header" auto "...... lists  active ......" auto/1fr minmax(100px, 300px) minmax(250px, 500px) 1fr;
+  /* Utility classes */
+  /*  Task lists  */
+  /*  ToDo list  */
+}
+body .new {
+  border: none;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  outline: none;
+  padding: 0.5em;
+  transition: border-bottom 0.15s ease-in-out;
+}
+body .new:focus {
+  border-bottom: 2px solid currentColor;
+}
+body .new:focus::placeholder {
+  opacity: 0.5;
+}
+body .new::placeholder {
+  color: inherit;
+  opacity: 0.7;
+}
+body .btn {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-weight: 900;
+  color: inherit;
+}
+body .title {
+  grid-area: header;
+  color: rgba(0, 0, 0, 0.1);
+  font-size: clamp(3rem, 9vw + 1rem, 8rem);
+  font-weight: 900;
+  text-align: center;
+  margin: -0.3em auto 2.5rem;
+}
+body .all-tasks {
+  grid-area: lists;
+}
+body .all-tasks .task-lists-title {
+  margin: 2rem 0;
+}
+body .all-tasks .task-lists {
+  list-style-position: inside;
+  list-style-type: circle;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+body .all-tasks .task-lists .task-list {
+  margin: 0.4em 0;
+  transition: color 0.15s ease-in-out, font-weight 0.15s ease-in-out;
+  cursor: pointer;
+}
+body .all-tasks .task-lists .task-list.active-list {
+  font-weight: 700;
+  list-style-type: disc;
+}
+body .all-tasks .task-lists .task-list:not(.active-list):hover {
+  color: #cfcfcf;
+}
+body .all-tasks .new-list-form {
+  display: flex;
+  justify-content: flex-start;
+  color: #f4f4f4;
+}
+body .all-tasks .new-list-form .btn.add-list {
+  font-size: 1.2em;
+  padding-right: 0.2em;
+}
+body .all-tasks .new-list-form .btn.add-list:hover {
+  color: #1b3864;
+}
+body .all-tasks .new-list-form .new.add-list {
+  color: inherit;
+  order: 2;
+  width: 75%;
+  font-size: 0.6em;
+}
+body .todo-list {
+  grid-area: active;
+}
+body .todo-list .todo-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background-color: #ebebeb;
+  color: #333;
+}
+body .todo-list .todo-list-header p {
+  font-size: 1rem;
+  color: #707070;
+}
+body .todo-list .todo-list-body {
+  background-color: #f4f4f4;
+  padding: 2rem;
+  color: #333;
+}
+body .todo-list .todo-list-body .task {
+  padding: 0.8em 0;
+  position: relative;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.2);
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+body .todo-list .todo-list-body .task:first-child {
+  padding-top: 0;
+}
+body .todo-list .todo-list-body .task:last-child {
+  margin-bottom: 0.5em;
+}
+body .todo-list .todo-list-body .task label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+body .todo-list .todo-list-body .task label::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 1.5em;
+  width: 95%;
+  height: 2px;
+  background-color: #999999;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.15s ease-in;
+}
+body .todo-list .todo-list-body .task label .custom-checkbox {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  transform: translateY(20%);
+  border: 0.15em solid currentColor;
+  border-radius: 50%;
+  transition: all 0.15s ease-in-out;
+}
+body .todo-list .todo-list-body .task label:hover .custom-checkbox {
+  border: 0.15em solid hsl(216deg, 57%, 50%);
+  transform: translateY(20%) scale(1.2);
+}
+body .todo-list .todo-list-body .task input[type=checkbox] {
+  opacity: 0;
+  position: absolute;
+}
+body .todo-list .todo-list-body .task input[type=checkbox]:checked + label {
+  color: #999999;
+}
+body .todo-list .todo-list-body .task input[type=checkbox]:checked + label::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+body .todo-list .todo-list-body .task input[type=checkbox]:checked + label .custom-checkbox {
+  border: 0.15em solid hsl(216deg, 57%, 50%);
+  background-color: hsl(216deg, 57%, 50%);
+  box-shadow: inset 0px 0px 0px 0.15em #f4f4f4;
+}
+body .todo-list .todo-list-body .new-task-form {
+  display: flex;
+  justify-content: flex-start;
+}
+body .todo-list .todo-list-body .new-task-form .btn.add-task {
+  font-size: 1.5em;
+  padding-right: 0.2em;
+  color: hsl(216deg, 57%, 50%);
+}
+body .todo-list .todo-list-body .new-task-form .btn.add-task:hover {
+  color: #739cd9;
+}
+body .todo-list .todo-list-body .new-task-form .new.add-task {
+  order: 2;
+  font-size: 1rem;
+}
+body .todo-list .todo-list-footer {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.8em 0;
+}
+body .todo-list .todo-list-footer .btn.delete {
+  font-size: 0.9rem;
+  font-weight: 300;
+  cursor: pointer;
+}
+body .todo-list .todo-list-footer .btn.delete:hover {
+  color: rgba(244, 244, 244, 0.5);
+}
+
+/*  Media Queries  */
+@media screen and (max-width: 850px) {
+  body {
+    grid: "header" auto "lists" auto "active" auto/1fr;
+  }
+  body .title {
+    margin-bottom: 0;
+    font-size: clamp(3rem, 8vw + 1rem, 8rem);
+  }
+  body .all-tasks {
+    margin: 0 2rem 2rem;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
