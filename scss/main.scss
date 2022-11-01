@@ -175,7 +175,7 @@ body {
             content: '';
             position: absolute;
             top: 50%;
-            left: calc($tick-size + 0.5em);
+            left: calc(#{$tick-size} + 0.5em);
             width: 95%;
             height: 2px;
             background-color: color.scale($color-dark, $lightness: 50%);
@@ -190,7 +190,7 @@ body {
             box-sizing: border-box;
             width: $tick-size;
             height: $tick-size;
-            margin-right: calc($tick-size / 2);
+            margin-right: calc(#{$tick-size} / 2);
             transform: translateY(20%);
             border: 0.15em solid currentColor;
             border-radius: 50%;
@@ -255,6 +255,11 @@ body {
         cursor: pointer;
 
         &:hover {
+          color: color.scale($color-light, $alpha: -50%);
+        }
+        
+        &:disabled{
+          pointer-events: none;
           color: color.scale($color-light, $alpha: -50%);
         }
       }

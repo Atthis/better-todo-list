@@ -8,7 +8,7 @@ class ListElement {
    * @param {String} id - id of the element
    */
   constructor(name) {
-    (this.name = name), (this.id = name.replace(/ /g, '-'));
+    (this.name = name), (this.id = name.replace(/\W/g, ''));
   }
 }
 
@@ -42,14 +42,38 @@ class List extends ListElement {
 
   /**
    * Create DOM Tasks list element
+   * @param {array} allLists array of all existing lists
+   * @param {object} tasksContainer DOM element that contains lists
    */
-  createDOMTasksList() {
+  createDOMTasksList(allLists, taskListClass, tasksContainer) {
     const newList = document.createElement('li');
     newList.innerText = this.name;
     newList.id = this.id;
-    newList.classList.add('task-list');
+    newList.classList.add(taskListClass);
+
+    if (allLists.length === 0) newList.classList.add('active-list');
+
+    this.createClickEventListener(newList, taskListClass, tasksContainer);
 
     return newList;
+  }
+
+  /**
+   * Add the event listener to the list instance
+   * @param {object} list list object created
+   * @param {array} allLists array of all existing lists
+   * @param {object} tasksContainer DOM element that contains lists
+   */
+  createClickEventListener(list, taskListClass, tasksContainer) {
+    list.addEventListener('click', e => {
+      document.querySelectorAll(`.${taskListClass}`).forEach(list => list.classList.remove('active-list'))
+
+      e.target.classList.add('active-list');
+
+      tasksContainer.innerHTML = '';
+
+      tasksContainer.append(...this.displayTasks());
+    });
   }
 
   displayTasks() {

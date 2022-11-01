@@ -1,63 +1,13 @@
 import { List } from './classes.js';
 
-/* améliorations :
-- envoyer les tâches dans le LS -> stocker les listes qui sont réalisées
-*/
-
-/* ---  --- */
-let lists = [
-  {
-    name: 'YouTube',
-    tasks: [
-      {
-        name: 'record todo list video',
-        done: true,
-      },
-      {
-        name: 'edit todo list video',
-        done: false,
-      },
-      {
-        name: 'publish todo list video',
-        done: false,
-      },
-    ],
-  },
-  {
-    name: 'Work',
-    tasks: [
-      {
-        name: 'first task to do',
-        done: false,
-      },
-      {
-        name: 'second task to do',
-        done: false,
-      },
-    ],
-  },
-  {
-    name: 'Grocery',
-    tasks: [
-      {
-        name: 'apples',
-        done: false,
-      },
-      {
-        name: 'butter',
-        done: true,
-      },
-    ],
-  },
-];
-
-
 const taskListsContainer = document.querySelector('#task-lists');
-let taskList = Array.from(document.querySelectorAll('.task-list'));
+let taskList = [];
 
 const tasksContainer = document.querySelector('#tasks');
 const newListName = document.querySelector('#new-list-name');
 const newList = document.querySelector('#new-list');
+
+const deleteListBtn = document.querySelector('#delete-list');
 
 let allLists = [];
 
@@ -67,23 +17,25 @@ newList.addEventListener('click', e => {
 
   if (newListName.value === null || newListName.value === '') return;
 
+  // Throw error if name already used
   if (
     allLists.length > 0 &&
     allLists.filter(
-      list => list.hasOwnProperty('id') && list.id === newListName.value
+      list =>
+        list.hasOwnProperty('id') &&
+        list.id === newListName.value.replace(/\W/g, '')
     ).length > 0
   ) {
-
     // Create visual effect for errors
     console.error('Name already used');
     return;
   }
+
   let list = new List(newListName.value);
 
-  newListName.value = '';
-
-  // list.createDOMTasksList(taskListsContainer);
-  taskListsContainer.appendChild(list.createDOMTasksList());
+  taskListsContainer.appendChild(
+    list.createDOMTasksList(allLists, 'task-list', tasksContainer)
+  );
 
   allLists.push(list);
 
@@ -92,46 +44,34 @@ newList.addEventListener('click', e => {
 
     tasksContainer.append(...list.displayTasks());
   }
+
+  newListName.value = '';
+
+  deleteListBtn.removeAttribute('disabled')
+
 });
 
-const observerConfig = { childList: true };
+deleteListBtn.addEventListener('click', e => {
+  e.preventDefault();
 
-const listObserverCallback = mutationList => {
-  mutationList.forEach(mutation => {
-    const addedNodes = Array.from(mutation.addedNodes);
+  const currentListDOMEl = document.querySelector('.active-list');
+  const currentListObject = allLists.find(el => el.id === currentListDOMEl.id);
 
-    if (allLists.length === 1) {
-      addedNodes[0].classList.add('active-list');
-    }
+  taskListsContainer.removeChild(currentListDOMEl);
 
-    addedNodes[0].addEventListener('click', e => {
-      taskList.forEach(list => list.classList.remove('active-list'));
-      e.target.classList.add('active-list');
+  allLists.splice(allLists.indexOf(currentListObject), 1);
 
-      tasksContainer.innerHTML = '';
+  if (allLists.length <= 0) {
+    deleteListBtn.setAttribute('disabled', '');
+    return;
+  }
 
-      const currentList = allLists.filter(
-        list => list.hasOwnProperty('id') && list.id === e.target.id
-      )[0];
-
-      tasksContainer.append(...currentList.displayTasks());
-
-      // allLists[e.target.id].displayTasks(tasksContainer);
-    });
-
-    taskList.push(...addedNodes);
-  });
-};
-
-const listsObserver = new MutationObserver(listObserverCallback);
-
-listsObserver.observe(taskListsContainer, observerConfig);
-
+  taskListsContainer.firstElementChild.classList.add('active-list');
+});
 
 /*
 Suppression d'une liste :
-- récupérer l'id de la liste en cours d'affichage
-- supprimer l'objet du tableau
-- supprimer le noeud du DOM
-
+✓ récupérer l'id de la liste en cours d'affichage
+✓ supprimer le noeud du DOM
+✓ supprimer l'objet du tableau
 */
