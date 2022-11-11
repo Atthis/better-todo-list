@@ -1,15 +1,36 @@
-import { List } from './classes.js';
+import { List, Task } from './classes.js';
 
 const taskListsContainer = document.querySelector('#task-lists');
 let taskList = [];
 
-const tasksContainer = document.querySelector('#tasks');
 const newListName = document.querySelector('#new-list-name');
 const newList = document.querySelector('#new-list');
+
+const tasksContainer = document.querySelector('#tasks');
+const listTitle = document.querySelector('#list-title');
+
+const newTaskName = document.querySelector('#new-task-name');
+const newTask = document.querySelector('#new-task');
 
 const deleteListBtn = document.querySelector('#delete-list');
 
 let allLists = [];
+
+window.addEventListener('load', () => {
+  if (allLists.length === 0) return;
+
+  allLists.forEach(list => {
+    const DOMList = list.createDOMTasksList(
+      'task-list',
+      tasksContainer,
+      listTitle
+    );
+
+    if (allLists.length === 1) DOMList.classList.add('active-list');
+
+    taskListsContainer.appendChild(DOMList);
+  });
+});
 
 // Adding list form
 newList.addEventListener('click', e => {
@@ -31,24 +52,31 @@ newList.addEventListener('click', e => {
     return;
   }
 
-  let list = new List(newListName.value);
+  const list = new List(newListName.value);
 
-  taskListsContainer.appendChild(
-    list.createDOMTasksList(allLists, 'task-list', tasksContainer)
+  const DOMList = list.createDOMTasksList(
+    'task-list',
+    tasksContainer,
+    listTitle
   );
+
+  if (allLists.length === 0) DOMList.classList.add('active-list');
+
+  taskListsContainer.appendChild(DOMList);
 
   allLists.push(list);
 
   if (allLists.length === 1) {
     tasksContainer.innerHTML = '';
 
-    tasksContainer.append(...list.displayTasks());
+    tasksContainer.append(...list.displayTasks(listTitle));
   }
 
   newListName.value = '';
 
-  deleteListBtn.removeAttribute('disabled')
+  deleteListBtn.removeAttribute('disabled');
 
+  console.log(allLists);
 });
 
 deleteListBtn.addEventListener('click', e => {
@@ -69,9 +97,24 @@ deleteListBtn.addEventListener('click', e => {
   taskListsContainer.firstElementChild.classList.add('active-list');
 });
 
-/*
-Suppression d'une liste :
-✓ récupérer l'id de la liste en cours d'affichage
-✓ supprimer le noeud du DOM
-✓ supprimer l'objet du tableau
-*/
+newTask.addEventListener('click', e => {
+  e.preventDefault();
+
+  if (allLists.length === 0) {
+    console.error('no list');
+    return;
+  }
+
+  if (newTaskName.value === null || newTaskName.value === '') return;
+
+  const activeListId = document.querySelector('.active-list').id;
+  const activeList = allLists.filter(list => list.id === activeListId)[0];
+
+  const task = new Task(newTaskName.value, activeList.tasks.length);
+
+  activeList.tasks.push(task);
+
+  tasksContainer.appendChild(task.createDOMTask());
+
+  newTaskName.value = '';
+});

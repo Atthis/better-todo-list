@@ -9,7 +9,7 @@ I use the Kevin Powell mockup, and develop the JavaScript mechanisms on my own. 
 ## Project features
 
 - [x] create tasks lists
-- [ ] create tasks
+- [x] create tasks
 - [ ] check done tasks
 - [ ] clear done tasks
 - [ ] delete tasks lists
