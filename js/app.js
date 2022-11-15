@@ -1,4 +1,5 @@
 import { List, Task } from './classes.js';
+import { toggleActiveClass, defineListTitle } from './utils.js';
 
 const taskListsContainer = document.querySelector('#task-lists');
 let taskList = [];
@@ -16,23 +17,24 @@ const deleteListBtn = document.querySelector('#delete-list');
 
 let allLists = [];
 
+// Load lists from the LS on page load
 window.addEventListener('load', () => {
   if (allLists.length === 0) return;
 
-  allLists.forEach(list => {
+  allLists.forEach((list, i) => {
     const DOMList = list.createDOMTasksList(
       'task-list',
       tasksContainer,
       listTitle
     );
 
-    if (allLists.length === 1) DOMList.classList.add('active-list');
+    if (i === 0) DOMList.classList.add('active-list');
 
     taskListsContainer.appendChild(DOMList);
   });
 });
 
-// Adding list form
+// Adding list
 newList.addEventListener('click', e => {
   e.preventDefault();
 
@@ -60,17 +62,13 @@ newList.addEventListener('click', e => {
     listTitle
   );
 
-  if (allLists.length === 0) DOMList.classList.add('active-list');
+  toggleActiveClass(DOMList, 'task-list');
 
   taskListsContainer.appendChild(DOMList);
 
   allLists.push(list);
 
-  if (allLists.length === 1) {
-    tasksContainer.innerHTML = '';
-
-    tasksContainer.append(...list.displayTasks(listTitle));
-  }
+  defineListTitle(listTitle, list.name);
 
   newListName.value = '';
 
@@ -79,6 +77,7 @@ newList.addEventListener('click', e => {
   console.log(allLists);
 });
 
+// Delete list
 deleteListBtn.addEventListener('click', e => {
   e.preventDefault();
 
@@ -91,12 +90,26 @@ deleteListBtn.addEventListener('click', e => {
 
   if (allLists.length <= 0) {
     deleteListBtn.setAttribute('disabled', '');
+    tasksContainer.innerHTML = '';
+    listTitle.innerText = '';
     return;
   }
 
-  taskListsContainer.firstElementChild.classList.add('active-list');
+  const newListObject = allLists[allLists.length - 1];
+  listTitle.innerText = newListObject.name;
+
+  tasksContainer.innerHTML = '';
+  tasksContainer.append(...newListObject.displayTasks(listTitle));
+
+  // document.querySelector(`.${newListObject.id}`).classList.add('active-list');
+
+  toggleActiveClass(
+    document.querySelector(`#${newListObject.id}`),
+    'task-list'
+  );
 });
 
+// Adding task
 newTask.addEventListener('click', e => {
   e.preventDefault();
 

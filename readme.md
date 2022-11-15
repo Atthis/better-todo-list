@@ -11,7 +11,8 @@ I use the Kevin Powell mockup, and develop the JavaScript mechanisms on my own. 
 - [x] create tasks lists
 - [x] create tasks
 - [ ] check done tasks
+- [ ] display remaining tasks number
 - [ ] clear done tasks
-- [ ] delete tasks lists
+- [x] delete tasks lists
 - [ ] store data into Local Storage
 - [ ] error handling with visual responses
