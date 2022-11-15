@@ -4,6 +4,7 @@ import { toggleActiveClass, defineListTitle } from './utils.js';
 const taskListsContainer = document.querySelector('#task-lists');
 let taskList = [];
 
+const newListForm = document.querySelector('#new-list-form');
 const newListName = document.querySelector('#new-list-name');
 const newList = document.querySelector('#new-list');
 
@@ -35,8 +36,11 @@ window.addEventListener('load', () => {
 });
 
 // Adding list
-newList.addEventListener('click', e => {
+// newList.addEventListener('submit', e => {
+newListForm.addEventListener('submit', e => {
   e.preventDefault();
+
+  console.log(e);
 
   if (newListName.value === null || newListName.value === '') return;
 
