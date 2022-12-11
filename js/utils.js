@@ -10,4 +10,8 @@ const defineListTitle = function (title, listName) {
   title.innerText = listName;
 };
 
-export { toggleActiveClass, defineListTitle };
+const clearContainer = function (container) {
+  container.innerHTML = '';
+};
+
+export { toggleActiveClass, defineListTitle, clearContainer };

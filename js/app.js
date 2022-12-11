@@ -1,5 +1,5 @@
 import { List, Task } from './classes.js';
-import { toggleActiveClass, defineListTitle } from './utils.js';
+import { toggleActiveClass, defineListTitle, clearContainer } from './utils.js';
 
 const taskListsContainer = document.querySelector('#task-lists');
 let taskList = [];
@@ -36,8 +36,8 @@ window.addEventListener('load', () => {
 });
 
 // Adding list
-// newList.addEventListener('submit', e => {
-newListForm.addEventListener('submit', e => {
+newList.addEventListener('click', e => {
+  // newListForm.addEventListener('submit', e => {
   e.preventDefault();
 
   console.log(e);
@@ -69,6 +69,8 @@ newListForm.addEventListener('submit', e => {
   toggleActiveClass(DOMList, 'task-list');
 
   taskListsContainer.appendChild(DOMList);
+
+  clearContainer(tasksContainer);
 
   allLists.push(list);
 

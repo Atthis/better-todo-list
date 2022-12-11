@@ -9,22 +9,7 @@ class List {
    * @param {string} name - name of the element
    */
   constructor(name) {
-    (this.name = name),
-      (this.id = name.replace(/\W/g, '-')),
-      (this.tasks = [
-        // {
-        //   name: 'record todo list video',
-        //   done: true,
-        // },
-        // {
-        //   name: 'edit todo list video',
-        //   done: false,
-        // },
-        // {
-        //   name: 'publish todo list video',
-        //   done: false,
-        // },
-      ]);
+    (this.name = name), (this.id = name.replace(/\W/g, '-')), (this.tasks = []);
   }
 
   /**
