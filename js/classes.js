@@ -85,30 +85,24 @@ class Task {
           <input type="checkbox" name="${this.name.replace(
             /\W/g,
             '-'
-          )}" id="task-${this.id}">
+          )}" id="task-${this.id}" ${this.done ? 'checked' : ''}>
           <label for="task-${this.id}"><span class="custom-checkbox"></span>${
       this.name
     }</label>`;
 
+    newTask.querySelector(`#task-${this.id}`).addEventListener('click', (e) => {
+      this.done ? (this.done = false) : (this.done = true);
+    });
+
     return newTask;
   }
+
 }
 
 /*
-
-Gestion du "done" des tasks :
-- passer en true quand done
-- controler si true ou false à l'affichage (et cocher l'input si true)
-
 Affichage du nombre de tâches en cours - MAJ à la validation des tâches/au changement de liste de tâches
 
-delete task list : 
-- afficher les tâches de la nouvelle liste active
-Erreur : taches toujours affichées à la suppression de la dernière liste existante
-  - si plus de liste, supprimer les éléments du parent
-
 Amelioration : utiliser des documentFragment [https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment]
-
 */
 
 export { List, Task };

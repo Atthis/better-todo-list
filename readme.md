@@ -10,7 +10,7 @@ I use the Kevin Powell mockup, and develop the JavaScript mechanisms on my own. 
 
 - [x] create tasks lists
 - [x] create tasks
-- [ ] check done tasks
+- [x] check done tasks
 - [ ] display remaining tasks number
 - [ ] clear done tasks
 - [x] delete tasks lists
@@ -18,3 +18,7 @@ I use the Kevin Powell mockup, and develop the JavaScript mechanisms on my own. 
 - [ ] error handling with visual responses
 - [ ] responsivness
 - [ ] accessibility
+
+## Futur possible improvements
+- create back-end
+- add accounts

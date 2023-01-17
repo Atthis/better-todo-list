@@ -2,7 +2,6 @@ import { List, Task } from './classes.js';
 import { toggleActiveClass, defineListTitle, clearContainer } from './utils.js';
 
 const taskListsContainer = document.querySelector('#task-lists');
-let taskList = [];
 
 const newListForm = document.querySelector('#new-list-form');
 const newListName = document.querySelector('#new-list-name');
@@ -37,10 +36,7 @@ window.addEventListener('load', () => {
 
 // Adding list
 newList.addEventListener('click', e => {
-  // newListForm.addEventListener('submit', e => {
   e.preventDefault();
-
-  console.log(e);
 
   if (newListName.value === null || newListName.value === '') return;
 
@@ -79,8 +75,6 @@ newList.addEventListener('click', e => {
   newListName.value = '';
 
   deleteListBtn.removeAttribute('disabled');
-
-  console.log(allLists);
 });
 
 // Delete list
