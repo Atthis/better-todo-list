@@ -1,4 +1,4 @@
-import { toggleActiveClass, defineListTitle } from './utils.js';
+import { toggleActiveClass, defineListTitle, showRemainingTasks } from './utils.js';
 
 /**
  * Create specific list element : a tasks list
@@ -77,7 +77,7 @@ class Task {
     (this.name = name), (this.id = id), (this.done = false);
   }
 
-  createDOMTask() {
+  createDOMTask(list, numberContainer) {
     const newTask = document.createElement('div');
     newTask.classList.add('task');
 
@@ -90,16 +90,23 @@ class Task {
       this.name
     }</label>`;
 
-    newTask.querySelector(`#task-${this.id}`).addEventListener('click', (e) => {
+    newTask.querySelector(`#task-${this.id}`).addEventListener('click', () => {
       this.done ? (this.done = false) : (this.done = true);
+      // numberContainer.innerText = showRemainingTasks(list);
     });
 
+    // numberContainer.innerText = showRemainingTasks(list);
+    
     return newTask;
   }
 
 }
 
 /*
+Modifier l'id des tâches pour qu'il ne soit pas associé à la longueur du tableau -> risque de doublons lors de la suppression de tâches
+=> génération d'id unique ?
+  -> demande stockage des id, puis suppression lorsque plus nécessaire
+
 Affichage du nombre de tâches en cours - MAJ à la validation des tâches/au changement de liste de tâches
 
 Amelioration : utiliser des documentFragment [https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment]

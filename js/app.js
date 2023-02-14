@@ -1,5 +1,5 @@
+import { toggleActiveClass, defineListTitle, clearContainer, uniqueRandomNumberGenerator } from './utils.js';
 import { List, Task } from './classes.js';
-import { toggleActiveClass, defineListTitle, clearContainer } from './utils.js';
 
 const taskListsContainer = document.querySelector('#task-lists');
 
@@ -9,13 +9,15 @@ const newList = document.querySelector('#new-list');
 
 const tasksContainer = document.querySelector('#tasks');
 const listTitle = document.querySelector('#list-title');
+const remainingTasks = document.querySelector('#tasks-number')
 
 const newTaskName = document.querySelector('#new-task-name');
 const newTask = document.querySelector('#new-task');
 
 const deleteListBtn = document.querySelector('#delete-list');
 
-let allLists = [];
+const allLists = [];
+const uniqueRandomNumberArray = [];
 
 // Load lists from the LS on page load
 window.addEventListener('load', () => {
@@ -68,6 +70,8 @@ newList.addEventListener('click', e => {
 
   clearContainer(tasksContainer);
 
+  remainingTasks.innerText = 0;
+
   allLists.push(list);
 
   defineListTitle(listTitle, list.name);
@@ -101,8 +105,6 @@ deleteListBtn.addEventListener('click', e => {
   tasksContainer.innerHTML = '';
   tasksContainer.append(...newListObject.displayTasks(listTitle));
 
-  // document.querySelector(`.${newListObject.id}`).classList.add('active-list');
-
   toggleActiveClass(
     document.querySelector(`#${newListObject.id}`),
     'task-list'
@@ -123,11 +125,13 @@ newTask.addEventListener('click', e => {
   const activeListId = document.querySelector('.active-list').id;
   const activeList = allLists.filter(list => list.id === activeListId)[0];
 
-  const task = new Task(newTaskName.value, activeList.tasks.length);
+  const task = new Task(newTaskName.value, uniqueRandomNumberGenerator(uniqueRandomNumberArray));
 
   activeList.tasks.push(task);
 
-  tasksContainer.appendChild(task.createDOMTask());
+  tasksContainer.appendChild(task.createDOMTask(activeList, remainingTasks));
 
   newTaskName.value = '';
+
 });
+
