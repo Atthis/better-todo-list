@@ -1,5 +1,6 @@
-import { toggleActiveClass, defineListTitle, clearContainer, uniqueRandomNumberGenerator } from './utils.js';
-import { List, Task } from './classes.js';
+import { toggleActiveClass } from './utils.js';
+import List from './list.js';
+import Task from './task.js';
 
 const taskListsContainer = document.querySelector('#task-lists');
 
@@ -9,7 +10,7 @@ const newList = document.querySelector('#new-list');
 
 const tasksContainer = document.querySelector('#tasks');
 const listTitle = document.querySelector('#list-title');
-const remainingTasks = document.querySelector('#tasks-number')
+const remainingTasks = document.querySelector('#tasks-number');
 
 const newTaskName = document.querySelector('#new-task-name');
 const newTask = document.querySelector('#new-task');
@@ -17,7 +18,7 @@ const newTask = document.querySelector('#new-task');
 const deleteListBtn = document.querySelector('#delete-list');
 
 const allLists = [];
-const uniqueRandomNumberArray = [];
+const maxTasksNumber = 10;
 
 // Load lists from the LS on page load
 window.addEventListener('load', () => {
@@ -37,10 +38,10 @@ window.addEventListener('load', () => {
 });
 
 // Adding list
-newList.addEventListener('click', e => {
+newListForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  if (newListName.value === null || newListName.value === '') return;
+  if (newListForm.name.value === null || newListForm.name.value === '') return;
 
   // Throw error if name already used
   if (
@@ -48,7 +49,7 @@ newList.addEventListener('click', e => {
     allLists.filter(
       list =>
         list.hasOwnProperty('id') &&
-        list.id === newListName.value.replace(/\W/g, '')
+        list.id === newListForm.name.value.replace(/\W/g, '-')
     ).length > 0
   ) {
     // Create visual effect for errors
@@ -56,29 +57,36 @@ newList.addEventListener('click', e => {
     return;
   }
 
-  const list = new List(newListName.value);
+  // JS actions
+  const list = new List(newListForm.name.value);
 
-  const DOMList = list.createDOMTasksList(
-    'task-list',
-    tasksContainer,
-    listTitle
-  );
+  allLists.push(list);
+
+  // DOM actions
+  const DOMList = list.createDOMTasksList('task-list');
+
+  DOMList.addEventListener('click', function (e) {
+    toggleActiveClass(this, 'task-list');
+
+    tasksContainer.innerHTML = '';
+
+    tasksContainer.append(...list.displayTasks(listTitle, remainingTasks));
+  });
 
   toggleActiveClass(DOMList, 'task-list');
 
   taskListsContainer.appendChild(DOMList);
 
-  clearContainer(tasksContainer);
+  tasksContainer.innerHTML = '';
 
   remainingTasks.innerText = 0;
 
-  allLists.push(list);
+  list.defineListTitle(listTitle, list.name);
 
-  defineListTitle(listTitle, list.name);
+  newListForm.name.value = '';
 
-  newListName.value = '';
-
-  deleteListBtn.removeAttribute('disabled');
+  if (deleteListBtn.hasAttribute('disabled'))
+    deleteListBtn.removeAttribute('disabled');
 });
 
 // Delete list
@@ -103,7 +111,9 @@ deleteListBtn.addEventListener('click', e => {
   listTitle.innerText = newListObject.name;
 
   tasksContainer.innerHTML = '';
-  tasksContainer.append(...newListObject.displayTasks(listTitle));
+  tasksContainer.append(
+    ...newListObject.displayTasks(listTitle, remainingTasks)
+  );
 
   toggleActiveClass(
     document.querySelector(`#${newListObject.id}`),
@@ -125,13 +135,13 @@ newTask.addEventListener('click', e => {
   const activeListId = document.querySelector('.active-list').id;
   const activeList = allLists.filter(list => list.id === activeListId)[0];
 
-  const task = new Task(newTaskName.value, uniqueRandomNumberGenerator(uniqueRandomNumberArray));
+  // if(activeList.tasks.length === maxTasksNumber)
+
+  const task = new Task(newTaskName.value, activeList);
 
   activeList.tasks.push(task);
 
   tasksContainer.appendChild(task.createDOMTask(activeList, remainingTasks));
 
   newTaskName.value = '';
-
 });
-

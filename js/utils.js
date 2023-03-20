@@ -1,8 +1,13 @@
 const uniqueRandomNumberGenerator = function (numberList) {
-  let uniqueNumber = Math.floor(Math.random() * 100);
+  let uniqueNumber = Math.floor(Math.random() * 10);
 
-  if (numberList.indexOf(uniqueNumber) > -1)
-    uniqueNumber = uniqueRandomNumberGenerator(numberList);
+  while (numberList.indexOf(uniqueNumber) !== -1 && numberList.length < 10) {
+    uniqueNumber = Math.floor(Math.random() * 10);
+  }
+
+  if (numberList.length === 10) console.warn('Max tasks number reach'); // Ensure loop exit in case tasks number > 100
+
+  numberList.push(uniqueNumber);
 
   return uniqueNumber;
 };
@@ -15,14 +20,6 @@ const toggleActiveClass = function (list, taskListClass) {
   list.classList.add('active-list');
 };
 
-const defineListTitle = function (title, listName) {
-  title.innerText = listName;
-};
-
-const clearContainer = function (container) {
-  container.innerHTML = '';
-};
-
 // Récupérer les taches effectuées
 const getDoneTasks = function (tasks) {
   const doneTasks = tasks.filter(task => task.done === true);
@@ -30,15 +27,13 @@ const getDoneTasks = function (tasks) {
 };
 
 // Afficher le nombre de tâches effectuées
-const showRemainingTasks = function ({tasks}) {
+const showRemainingTasks = function ({ tasks }) {
   const remainingTasks = tasks.length - getDoneTasks(tasks).length;
   return remainingTasks;
 };
 
 export {
   toggleActiveClass,
-  defineListTitle,
-  clearContainer,
   uniqueRandomNumberGenerator,
   getDoneTasks,
   showRemainingTasks,

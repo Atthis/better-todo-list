@@ -11,6 +11,7 @@ I use the Kevin Powell mockup, and develop the JavaScript mechanisms on my own. 
 - [x] create tasks lists
 - [x] create tasks
 - [x] check done tasks
+- [ ] delete a task alone (delete button)
 - [ ] display remaining tasks number
 - [ ] clear done tasks
 - [x] delete tasks lists
@@ -20,5 +21,6 @@ I use the Kevin Powell mockup, and develop the JavaScript mechanisms on my own. 
 - [ ] accessibility
 
 ## Futur possible improvements
+
 - create back-end
 - add accounts

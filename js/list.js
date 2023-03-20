@@ -1,51 +1,52 @@
 export default class List {
-  constructor(name, id) {
+  /**
+   * Create a tasks list element
+   * @param {string} name - name of the element
+   */
+  constructor(name) {
     (this.name = name),
-      (this.id = id),
-      (this.tasks = [
-        {
-          name: 'record todo list video',
-          done: true,
-        },
-        {
-          name: 'edit todo list video',
-          done: false,
-        },
-        {
-          name: 'publish todo list video',
-          done: false,
-        },
-      ]);
+      (this.id = name.replace(/\W/g, '-')),
+      (this.tasks = []),
+      (this.tasksId = []);
   }
 
-  // fonction création element du DOM avec ajout event listener
-  createDOMElement(parent) {
+  /**
+   * Create DOM Tasks list element
+   * @param {string} taskListClass - class to add to new task list
+   * @returns - new list object
+   */
+  createDOMTasksList(taskListClass) {
     const newList = document.createElement('li');
     newList.innerText = this.name;
     newList.id = this.id;
-    newList.classList.add('task-list');
+    newList.classList.add(taskListClass);
 
-    parent.appendChild(newList);
+    return newList;
   }
 
-  // fonction affichage des taches
-  displayTasks(parent) {
-    parent.innerHTML = '';
+  /**
+   * Display active list title on the page
+   * @param {Element} title
+   * @param {string} listName
+   */
+  defineListTitle(title, listName) {
+    title.innerText = listName;
+  }
 
-    this.tasks.forEach((task, index) => {
-      // task.display(parent, index)
-      // display method content below
-      const newTask = document.createElement('div');
-      newTask.classList.add('task');
+  /**
+   * Display all tasks of the active list
+   * @param {Element} title
+   * @returns {Array} - array of all tasks DOM elements
+   */
+  displayTasks(title, numberContainer) {
+    this.defineListTitle(title, this.name);
 
-      newTask.innerHTML = `
-            <input type="checkbox" name="" id="task-${index}">
-            <label for="task-${index}"><span class="custom-checkbox"></span>${task.name}</label>`;
+    let tasks = [];
 
-      parent.appendChild(newTask);
+    this.tasks.forEach(task => {
+      tasks.push(task.createDOMTask(this, numberContainer));
     });
+
+    return tasks;
   }
-
-
-  
 }
