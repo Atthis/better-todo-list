@@ -45,12 +45,4 @@ class Task {
   }
 }
 
-/*
-Modifier l'id des tâches pour qu'il ne soit pas associé à la longueur du tableau -> risque de doublons lors de la suppression de tâches
-=> génération d'id unique ?
-  -> demande stockage des id, puis suppression lorsque plus nécessaire
-
-Affichage du nombre de tâches en cours - MAJ à la validation des tâches/au changement de liste de tâches
-*/
-
 export { Task };

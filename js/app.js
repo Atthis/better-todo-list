@@ -63,15 +63,20 @@ newListForm.addEventListener('submit', e => {
   allLists.push(list);
 
   // DOM actions
-  const DOMList = list.createDOMTasksList('task-list');
+  const DOMList = list.createDOMTasksList(
+    'task-list',
+    tasksContainer,
+    listTitle,
+    remainingTasks
+  );
 
-  DOMList.addEventListener('click', function (e) {
-    toggleActiveClass(this, 'task-list');
+  // DOMList.addEventListener('click', function (e) {
+  //   toggleActiveClass(this, 'task-list');
 
-    tasksContainer.innerHTML = '';
+  //   tasksContainer.innerHTML = '';
 
-    tasksContainer.append(...list.displayTasks(listTitle, remainingTasks));
-  });
+  //   tasksContainer.append(...list.displayTasks(listTitle, remainingTasks));
+  // });
 
   toggleActiveClass(DOMList, 'task-list');
 

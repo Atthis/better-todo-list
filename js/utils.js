@@ -26,7 +26,7 @@ const getDoneTasks = function (tasks) {
   return doneTasks;
 };
 
-// Afficher le nombre de tâches effectuées
+// Afficher le nombre de tâches restantes
 const showRemainingTasks = function ({ tasks }) {
   const remainingTasks = tasks.length - getDoneTasks(tasks).length;
   return remainingTasks;

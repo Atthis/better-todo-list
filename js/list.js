@@ -1,3 +1,5 @@
+import { toggleActiveClass, showRemainingTasks } from './utils.js';
+
 export default class List {
   /**
    * Create a tasks list element
@@ -15,11 +17,19 @@ export default class List {
    * @param {string} taskListClass - class to add to new task list
    * @returns - new list object
    */
-  createDOMTasksList(taskListClass) {
+  createDOMTasksList(taskListClass, tasksContainer, title, numberContainer) {
     const newList = document.createElement('li');
     newList.innerText = this.name;
     newList.id = this.id;
     newList.classList.add(taskListClass);
+
+    newList.addEventListener('click', e => {
+      toggleActiveClass(newList, taskListClass);
+
+      tasksContainer.innerHTML = '';
+
+      tasksContainer.append(...this.displayTasks(title, numberContainer));
+    });
 
     return newList;
   }
@@ -46,6 +56,8 @@ export default class List {
     this.tasks.forEach(task => {
       tasks.push(task.createDOMTask(this, numberContainer));
     });
+
+    showRemainingTasks(this);
 
     return tasks;
   }
